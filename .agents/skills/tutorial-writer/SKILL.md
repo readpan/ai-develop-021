@@ -27,6 +27,7 @@ Required sections in order:
 ## [功能步骤sections — 按自然流程拆分]
 
 每个步骤:
+
 - 描述要做什么
 - 给出 prompt 示例（用 blockquote）
 - 描述 AI 的响应
@@ -92,17 +93,18 @@ For pages like `intro-mcp.md`, `what-is-vibe-coding.md`:
 
 ## Image Placeholders
 
-Format: `![Alt text describing the screenshot](./images/{section}-{NN}-{description}.png)`
+Format: `![Alt text describing the screenshot](./images/{section}-{description}.png)`
 
 Naming rules:
+
 - `{section}`: slug of the page (e.g., `create-project`, `setup`, `intro-mcp`)
-- `{NN}`: two-digit sequential number starting from `01`
-- `{description}`: short English description (e.g., `open-folder`, `prompt`, `browser`, `result`)
+- `{description}`: short English description (e.g., `open-folder`, `prompt`, `browser`, `result`). Do NOT use sequential numbering (like 01, 02) to allow inserting new images easily.
 
 Examples:
+
 ```
-![创建项目后的Cursor界面](./images/create-project-03-files.png)
-![终端显示开发服务器地址](./images/setup-04-dev-server.png)
+![创建项目后的Cursor界面](./images/create-project-files.png)
+![终端显示开发服务器地址](./images/setup-dev-server.png)
 ```
 
 Each image's alt text must describe what the screenshot shows in Chinese, specific enough for the screenshot author to reproduce.

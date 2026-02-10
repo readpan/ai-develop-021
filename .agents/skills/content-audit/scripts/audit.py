@@ -56,7 +56,7 @@ REQUIRED_SECTIONS = {
 IMAGE_PATTERN = re.compile(r"!\[([^\]]*)\]\(([^)]+)\)")
 LINK_PATTERN = re.compile(r"(?<!!)\[([^\]]*)\]\(([^)]+)\)")
 HEADING_PATTERN = re.compile(r"^#{1,3}\s+(.+)$", re.MULTILINE)
-IMAGE_NAME_CONVENTION = re.compile(r"^[a-z0-9-]+-\d{2}-[a-z0-9-]+\.\w+$")
+IMAGE_NAME_CONVENTION = re.compile(r"^[a-z0-9-]+-[a-z0-9-]+\.\w+$")
 
 # Real screenshots are typically >1KB; placeholder stubs (e.g., 1x1 PNG) are much smaller
 PLACEHOLDER_SIZE_THRESHOLD = 1024
@@ -79,9 +79,22 @@ class AuditResult:
         print(f"  AUDIT REPORT — {total} issue(s) found")
         print(f"{'='*60}\n")
 
+        # 1. Prioritize Pending Screenshots
+        pending = self.issues.get("PENDING_SCREENSHOT", [])
+        if pending:
+            print(f"[PENDING SCREENSHOTS] ({len(pending)} images to capture)")
+            print(f"{'-'*60}")
+            for filepath, info in pending:
+                # info is expected to be a dict for this category
+                print(f"  📄 Page: {filepath}")
+                print(f"     Save to: {info['img_path']}")
+                print(f"     Capture: {info['alt_text']}")
+                print()
+            print()
+
         order = [
             "MISSING_IMAGE",
-            "PLACEHOLDER_IMAGE",
+            # "PENDING_SCREENSHOT" is handled separately above
             "MISSING_SECTION",
             "BROKEN_LINK",
             "IMAGE_NAMING",
@@ -94,8 +107,7 @@ class AuditResult:
             print(f"[{cat}] ({len(items)} issue(s))")
             print(f"{'-'*40}")
             for filepath, detail in items:
-                rel = filepath
-                print(f"  {rel}")
+                print(f"  {filepath}")
                 print(f"    → {detail}")
             print()
 
@@ -103,6 +115,11 @@ class AuditResult:
         print(f"{'='*60}")
         print("  SUMMARY")
         print(f"{'='*60}")
+        
+        count = len(self.issues.get("PENDING_SCREENSHOT", []))
+        if count > 0:
+            print(f"  PENDING_SCREENSHOT: {count}")
+
         for cat in order:
             count = len(self.issues.get(cat, []))
             if count > 0:
@@ -131,12 +148,16 @@ def audit_images(filepath: Path, content: str, result: AuditResult):
             # Check if file is a placeholder stub (too small to be a real screenshot)
             file_size = img_full.stat().st_size
             if file_size < PLACEHOLDER_SIZE_THRESHOLD:
-                result.add("PLACEHOLDER_IMAGE", rel_path, f"Placeholder image ({file_size}B): {img_path} (alt: {alt_text})")
+                # Use a dict for structured output in the report
+                result.add("PENDING_SCREENSHOT", rel_path, {
+                    "img_path": img_path,
+                    "alt_text": alt_text
+                })
 
         # Check naming convention
         img_name = Path(img_path).name
         if not IMAGE_NAME_CONVENTION.match(img_name):
-            result.add("IMAGE_NAMING", rel_path, f"Non-standard name: {img_name} (expected: section-NN-description.ext)")
+            result.add("IMAGE_NAMING", rel_path, f"Non-standard name: {img_name} (expected: section-description.ext)")
 
 
 def audit_sections(filepath: Path, content: str, page_type: str, result: AuditResult):
