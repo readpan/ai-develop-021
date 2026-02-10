@@ -86,14 +86,15 @@ class AuditResult:
             print(f"{'-'*60}")
             for filepath, info in pending:
                 # info is expected to be a dict for this category
+                status_icon = "⚠️" if info.get('status') == 'MISSING' else "🖼️"
                 print(f"  📄 Page: {filepath}")
-                print(f"     Save to: {info['img_path']}")
+                print(f"     Save to: {info['img_path']} ({status_icon} {info.get('status', 'PENDING')})")
                 print(f"     Capture: {info['alt_text']}")
                 print()
             print()
 
         order = [
-            "MISSING_IMAGE",
+            # "MISSING_IMAGE" is now merged into PENDING_SCREENSHOT (status=MISSING)
             # "PENDING_SCREENSHOT" is handled separately above
             "MISSING_SECTION",
             "BROKEN_LINK",
@@ -142,8 +143,14 @@ def audit_images(filepath: Path, content: str, result: AuditResult):
         rel_path = str(filepath)
 
         # Check if file exists
+        # Check if file exists
         if not img_full.exists():
-            result.add("MISSING_IMAGE", rel_path, f"Image not found: {img_path} (alt: {alt_text})")
+            # Missing files are now treated as pending screenshots
+            result.add("PENDING_SCREENSHOT", rel_path, {
+                "img_path": img_path,
+                "alt_text": alt_text,
+                "status": "MISSING"
+            })
         else:
             # Check if file is a placeholder stub (too small to be a real screenshot)
             file_size = img_full.stat().st_size
@@ -151,7 +158,8 @@ def audit_images(filepath: Path, content: str, result: AuditResult):
                 # Use a dict for structured output in the report
                 result.add("PENDING_SCREENSHOT", rel_path, {
                     "img_path": img_path,
-                    "alt_text": alt_text
+                    "alt_text": alt_text,
+                    "status": "PLACEHOLDER"
                 })
 
         # Check naming convention

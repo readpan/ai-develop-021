@@ -17,8 +17,8 @@ python3 .agents/skills/content-audit/scripts/audit.py docs/
 
 The script checks all `.md` files under `docs/` and reports:
 
-- Missing images (referenced in markdown but file doesn't exist)
-- Placeholder images (file exists but is a tiny stub, not a real screenshot)
+- Missing images (referenced in markdown but file doesn't exist) -> Reported as PENDING
+- Placeholder images (file exists but is a tiny stub) -> Reported as PENDING
 - Missing required sections per page type
 - Broken internal links (links to `.md` files that don't exist)
 - Image naming convention violations
@@ -45,6 +45,27 @@ After running the automated audit, manually review:
 4. **VitePress config sync**: Every page file has a corresponding sidebar entry in `docs/.vitepress/config.ts`
 5. **Page flow**: Each non-FAQ page ends with "下一步" linking to the next logical page
 6. **Comparison teaching**: Pages introducing new concepts include contrast with what students already know
+7. **Writing quality**: Check for awkward phrasing, forced humor, or confusing expressions (see details below)
+
+## Writing Quality Review
+
+Read each page and flag expressions that would make a beginner pause or feel confused. The tutorial tone should be **warm and encouraging, but not gimmicky**.
+
+### Rules
+
+1. **No forced humor or slang**: Jokes that require cultural context or feel out of place break trust with beginners. Keep humor natural and light.
+2. **No disruptive parenthetical asides**: Parenthetical expressions that contradict or undercut the main sentence confuse readers.
+3. **Metaphors must be self-explanatory**: If a metaphor needs its own explanation, replace it with plain language.
+4. **Consistent register**: Don't mix formal explanations with overly casual interjections in the same paragraph.
+
+### Examples
+
+| ❌ 有问题                | ✅ 改后                          | 原因                                 |
+| ------------------------ | -------------------------------- | ------------------------------------ |
+| 你刚刚亲手（用嘴）做到的 | 你刚刚通过和 AI 对话，亲手做到的 | 括号里的"用嘴"打断阅读、语义奇怪     |
+| 恭喜你成为了一个码农！   | 恭喜你完成了第一个应用！         | "码农"是圈内自嘲用语，初学者可能困惑 |
+| 这就像给代码吃了炫迈     | 这会让页面的响应速度明显变快     | 广告梗不是所有读者都能理解           |
+| AI 这波操作很秀          | AI 会自动帮你完成这些步骤        | 网络用语在教程中显得不专业           |
 
 ## Fixing Issues
 

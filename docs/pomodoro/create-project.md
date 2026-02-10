@@ -11,8 +11,6 @@
 1. 在桌面（或你喜欢的位置）新建文件夹 `pomodoro`
 2. 打开 Cursor，菜单选择 File → Open Folder，选中 `pomodoro` 文件夹
 
-![用 Cursor 打开空的 pomodoro 文件夹](./images/create-project-01-open-folder.png)
-
 ## 告诉 AI 你要做什么
 
 按 `Cmd + I`（Mac）或 `Ctrl + I`（Windows）打开聊天面板，输入：
@@ -21,15 +19,11 @@
 
 按回车发送。
 
-![在聊天面板输入创建番茄时钟的 prompt](./images/create-project-02-prompt.png)
-
 ## AI 做了什么
 
 AI 会创建一个 `index.html` 文件（可能还会有 `style.css` 和 `script.js`，也可能把所有内容写在一个 HTML 文件里——两种情况都正常）。
 
 你会在 Cursor 左侧的文件列表中看到新创建的文件。
-
-![AI 生成文件后的 Cursor 界面，左侧显示新文件](./images/create-project-03-files.png)
 
 点击"Accept"按钮接受 AI 的更改。
 
@@ -41,7 +35,7 @@ AI 会创建一个 `index.html` 文件（可能还会有 `style.css` 和 `script
 
 ![浏览器中显示的番茄时钟初始页面，显示 25:00](./images/create-project-04-browser.png)
 
-虽然现在它还不能计时，但这已经是你的第一个番茄时钟了！
+虽然现在它还不能计时(当然很可能也是可以计时，这取决于 AI 的发挥)，但这已经是你的第一个番茄时钟了！
 
 ::: tip 如果页面显示不正常
 如果打开后是空白页面或者显示混乱，不要慌。回到 Cursor，在聊天面板中告诉 AI：
@@ -56,9 +50,11 @@ AI 会帮你排查并修复。
 上面我们用了一个比较具体的 prompt。如果你说得更模糊，会怎样？
 
 **试试这样说**：
+
 > 做个番茄时钟
 
 AI 可能会问你：
+
 > "你想用什么技术来实现？React、Vue 还是纯 HTML/CSS/JS？"
 
 作为零基础学员，你可能看不懂这些选项。没关系，你可以回复：

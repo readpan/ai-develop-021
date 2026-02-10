@@ -90,10 +90,13 @@ For pages like `intro-mcp.md`, `what-is-vibe-coding.md`:
 5. **VitePress features**: Use `::: tip` for reassuring side notes, never `::: danger` or `::: warning` (beginners scare easily)
 6. **No code blocks in tutorials**: Students don't write code. Only show terminal output or URLs when needed
 7. **Contrast teaching**: When a page introduces something new (e.g., Vite vs plain HTML), add explicit comparison with what they already know
+8. **AI-driven technical decisions**: When a tutorial introduces a new tool or technology (e.g., Node.js, Vite, a new library), do NOT directly prescribe it. Instead, show the reader asking AI for advice: describe the need/pain point → AI recommends the tool → then proceed with the recommendation. This teaches readers to consult AI for technical decisions, which is a core Vibe Coding skill. Example: instead of "Install Node.js", first show: "Tell AI: I want to build a more complex project, what do I need?" → AI suggests Node.js + Vite → then install.
 
 ## Image Placeholders
 
 Format: `![Alt text describing the screenshot](./images/{section}-{description}.png)`
+
+> Note: You do NOT need to create a placeholder image file. Just write the markdown link. The audit tool will automatically list it as a "Pending Screenshot".
 
 Naming rules:
 
@@ -124,3 +127,7 @@ When adding a new project (e.g., a third tutorial project):
 ## Content Style Reference
 
 For detailed examples of each page type and the full VitePress config pattern, see [references/config-patterns.md](references/config-patterns.md).
+
+## Post-Writing Audit
+
+After completing tutorial writing or editing, ask the user if they want to run a content audit on the affected pages. Use the content-audit skill (`content-audit/SKILL.md`) to check for structural issues, missing images, broken links, and writing quality problems. This helps catch issues like awkward phrasing, missing sections, or placeholder images before they go live.
